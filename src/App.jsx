@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Maximize2, Minimize2, RotateCcw } from 'lucide-react';
 import AreaForm from './pages/AreaForm';
 import RatesConfig from './pages/RatesConfig';
 import Summary from './pages/Summary';
@@ -98,14 +99,14 @@ function App() {
         
         {activeTab === 'form' && (
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <button className="btn-export" style={{ backgroundColor: 'var(--text-secondary)', padding: '0.5rem 1rem' }} onClick={() => setExpandToggle(e => e + 1)}>
-              Expand All
+            <button className="btn-compact" onClick={() => setExpandToggle(e => e + 1)} title="Expand All">
+              <Maximize2 size={14} /> Expand
             </button>
-            <button className="btn-export" style={{ backgroundColor: 'var(--text-secondary)', padding: '0.5rem 1rem' }} onClick={() => setCollapseToggle(c => c + 1)}>
-              Collapse All
+            <button className="btn-compact" onClick={() => setCollapseToggle(c => c + 1)} title="Collapse All">
+              <Minimize2 size={14} /> Collapse
             </button>
-            <button className="btn-export" style={{ backgroundColor: 'var(--danger-color)', padding: '0.5rem 1rem' }} onClick={handleClearAll}>
-              Start New Project
+            <button className="btn-compact danger" onClick={handleClearAll} title="Start New Project">
+              <RotateCcw size={14} /> Reset
             </button>
           </div>
         )}
