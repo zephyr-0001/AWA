@@ -6,7 +6,8 @@ export const FORM_SCHEMA = [
     isReference: true,
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
-      { name: 'value', label: 'Running Feet', type: 'number' }
+      { name: 'value', label: 'Running Feet', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'direct',
     unit: 'Rft'
@@ -37,7 +38,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Depth', type: 'number' }
+          { name: 'depth', label: 'Depth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -50,7 +52,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
-          { name: 'depth', label: 'Depth', type: 'number' }
+          { name: 'depth', label: 'Depth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -83,7 +86,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Depth', type: 'number' }
+          { name: 'depth', label: 'Depth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -96,7 +100,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
-          { name: 'depth', label: 'Depth', type: 'number' }
+          { name: 'depth', label: 'Depth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -143,7 +148,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Depth', type: 'number' }
+          { name: 'depth', label: 'Depth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -156,7 +162,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Height', type: 'number' } 
+          { name: 'depth', label: 'Height', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -169,7 +176,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Height', type: 'number' }
+          { name: 'depth', label: 'Height', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -182,7 +190,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
-          { name: 'depth', label: 'Thickness', type: 'number' }
+          { name: 'depth', label: 'Thickness', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -254,7 +263,8 @@ export const FORM_SCHEMA = [
         fields: [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
-          { name: 'breadth', label: 'Height', type: 'number' }
+          { name: 'breadth', label: 'Height', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'sqft',
         unit: 'SqFt'
@@ -267,7 +277,8 @@ export const FORM_SCHEMA = [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Height', type: 'number' }
+          { name: 'depth', label: 'Height', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -285,7 +296,8 @@ export const FORM_SCHEMA = [
         fields: [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
-          { name: 'breadth', label: 'Height', type: 'number' }
+          { name: 'breadth', label: 'Height', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'sqft',
         unit: 'SqFt'
@@ -297,7 +309,8 @@ export const FORM_SCHEMA = [
         fields: [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
-          { name: 'breadth', label: 'Height', type: 'number' }
+          { name: 'breadth', label: 'Height', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'sqft',
         unit: 'SqFt'
@@ -324,7 +337,8 @@ export const FORM_SCHEMA = [
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
-      { name: 'breadth', label: 'Breadth', type: 'number' }
+      { name: 'breadth', label: 'Breadth', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'sqft',
     unit: 'SqFt'
@@ -336,7 +350,8 @@ export const FORM_SCHEMA = [
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
-      { name: 'breadth', label: 'Height', type: 'number' }
+      { name: 'breadth', label: 'Height', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'sqft',
     unit: 'SqFt'
@@ -378,7 +393,8 @@ export const FORM_SCHEMA = [
         fields: [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Area', type: 'number' }, 
-          { name: 'breadth', label: 'Kilograms', type: 'number' } 
+          { name: 'breadth', label: 'Kilograms', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'tmt',
         unit: 'Kgs'
@@ -435,7 +451,8 @@ export const FORM_SCHEMA = [
         fields: [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
-          { name: 'breadth', label: 'Breadth', type: 'number' }
+          { name: 'breadth', label: 'Breadth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'sqft',
         unit: 'SqFt'
@@ -447,7 +464,8 @@ export const FORM_SCHEMA = [
         fields: [
           { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
-          { name: 'breadth', label: 'Breadth', type: 'number' }
+          { name: 'breadth', label: 'Breadth', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
         ],
         calcType: 'sqft',
         unit: 'SqFt'
@@ -519,7 +537,8 @@ export const FORM_SCHEMA = [
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
-      { name: 'breadth', label: 'Height', type: 'number' }
+      { name: 'breadth', label: 'Height', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'sqft',
     unit: 'SqFt'
@@ -530,7 +549,8 @@ export const FORM_SCHEMA = [
     type: 'multiple',
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
-      { name: 'value', label: 'Value (Liters)', type: 'number' }
+      { name: 'value', label: 'Value (Liters)', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'direct',
     unit: 'Liters'
@@ -541,7 +561,8 @@ export const FORM_SCHEMA = [
     type: 'multiple',
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
-      { name: 'value', label: 'Value (Liters)', type: 'number' }
+      { name: 'value', label: 'Value (Liters)', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'direct',
     unit: 'Liters'
@@ -564,7 +585,8 @@ export const FORM_SCHEMA = [
     type: 'multiple',
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
-      { name: 'value', label: 'Value (Numbers)', type: 'number' }
+      { name: 'value', label: 'Value (Numbers)', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'direct',
     unit: 'Numbers'
@@ -575,7 +597,8 @@ export const FORM_SCHEMA = [
     type: 'multiple',
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
-      { name: 'value', label: 'Area', type: 'number' }
+      { name: 'value', label: 'Area', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'direct',
     unit: 'SqFt'
@@ -587,7 +610,8 @@ export const FORM_SCHEMA = [
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
-      { name: 'breadth', label: 'Width', type: 'number' }
+      { name: 'breadth', label: 'Width', type: 'number' },
+      { name: 'number', label: 'Number', type: 'number', default: 1 }
     ],
     calcType: 'sqft',
     unit: 'SqFt'

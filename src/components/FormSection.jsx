@@ -25,9 +25,9 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
       case 'stairs1':
         return calculateStairsType1(row.length, row.breadth, row.depth, row.number);
       case 'stairs2':
-        return calculateStairsType2(row.length, row.breadth, row.depth);
+        return calculateStairsType2(row.length, row.breadth, row.depth, row.number);
       case 'tmt':
-        return calculateTMT(row.length, row.breadth);
+        return calculateTMT(row.length, row.breadth, row.number);
       case 'direct': {
         const val = parseFloat(row.value) || 0;
         const num = row.number !== undefined ? (parseFloat(row.number) || 1) : 1;
