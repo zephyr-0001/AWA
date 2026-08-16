@@ -120,7 +120,10 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: calc(1rem + env(safe-area-inset-top)) calc(1.5rem + env(safe-area-inset-right)) 1rem calc(1.5rem + env(safe-area-inset-left));
+  padding: 1rem 1.5rem;
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
   background-color: var(--bg-color-alt);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
