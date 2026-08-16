@@ -97,7 +97,7 @@ const Summary = ({ formData, rates, rawItems, basicCosts, projectName, customSub
       const basicCostPdf = generateBasicCostPdfBlob(basicCosts, projectName);
       zip.file(`${projNameStr}_Basic_Cost.pdf`, basicCostPdf);
 
-      const boqBreakdownPdf = generateBoqBreakdownPdfBlob(rawItems, projectName, dynamicSchema);
+      const boqBreakdownPdf = generateBoqBreakdownPdfBlob(rawItems, projectName, dynamicSchema, formData);
       zip.file(`${projNameStr}_BOQ_Breakdowns.pdf`, boqBreakdownPdf);
 
       const excelBlob = generateExcelBlob(rows, calculatedTotal, gst, grandTotal, rawItems, projectName, basicCosts, dynamicSchema);

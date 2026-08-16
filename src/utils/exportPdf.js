@@ -27,39 +27,41 @@ export const generateFinalSummaryPdfBlob = (summaryRows, calculatedTotal, gst, g
     tableData.push([
       { content: displaySection, styles: { fontStyle: 'bold' } },
       { content: row.subTitle || 'Total', styles: { fontStyle: 'bold' } },
-      { content: `${formatQuantity(row.total)} ${row.unit}`, styles: { fontStyle: 'bold' } },
+      { content: formatQuantity(row.total), styles: { fontStyle: 'bold' } },
+      { content: row.unit, styles: { fontStyle: 'bold', halign: 'center' } },
       { content: formatCurrency(row.rate), styles: { fontStyle: 'bold' } },
       { content: formatCurrency(row.finalCost), styles: { fontStyle: 'bold' } }
     ]);
   });
 
   tableData.push([
-    { content: 'Calculated Total', colSpan: 4, styles: { halign: 'right', fontStyle: 'bold' } },
+    { content: 'Calculated Total', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
     { content: formatCurrency(calculatedTotal), styles: { fontStyle: 'bold' } }
   ]);
   
   tableData.push([
-    { content: 'GST (18%)', colSpan: 4, styles: { halign: 'right', fontStyle: 'italic', textColor: [100, 100, 100] } },
+    { content: 'GST (18%)', colSpan: 5, styles: { halign: 'right', fontStyle: 'italic', textColor: [100, 100, 100] } },
     { content: formatCurrency(gst), styles: { fontStyle: 'italic', textColor: [100, 100, 100] } }
   ]);
 
   tableData.push([
-    { content: 'Grand Total', colSpan: 4, styles: { halign: 'right', fontStyle: 'bold', fillColor: [240, 240, 240] } },
+    { content: 'Grand Total', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold', fillColor: [240, 240, 240] } },
     { content: formatCurrency(grandTotal), styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } }
   ]);
 
   doc.autoTable({
     startY: 42,
-    head: [['Section', 'Sub-Section', 'Quantity', 'Rate', 'Total Cost']],
+    head: [['Section', 'Sub-Section', 'Quantity', 'Unit', 'Rate', 'Total Cost']],
     body: tableData,
     theme: 'grid',
     headStyles: { fillColor: [79, 70, 229] }, // Indigo primary color
     columnStyles: {
-      0: { cellWidth: 45 },
+      0: { cellWidth: 35 },
       1: { cellWidth: 'auto' },
       2: { cellWidth: 25, halign: 'right' },
-      3: { cellWidth: 20, halign: 'right' },
-      4: { cellWidth: 30, halign: 'right' },
+      3: { cellWidth: 15, halign: 'center' },
+      4: { cellWidth: 20, halign: 'right' },
+      5: { cellWidth: 30, halign: 'right' },
     }
   });
 
@@ -104,7 +106,7 @@ export const generateBasicCostPdfBlob = (basicCosts, projectName) => {
   return doc.output('blob');
 };
 
-export const generateBoqBreakdownPdfBlob = (rawItems, projectName, dynamicSchema) => {
+export const generateBoqBreakdownPdfBlob = (rawItems, projectName, dynamicSchema, formData) => {
   const doc = new jsPDF();
   const schemaToUse = dynamicSchema || FORM_SCHEMA;
   
@@ -154,12 +156,17 @@ export const generateBoqBreakdownPdfBlob = (rawItems, projectName, dynamicSchema
             ];
           });
 
+          const subTotalInfo = formData?.[section.id]?.totals?.[sub.id];
+          const totalStr = subTotalInfo ? `${formatQuantity(subTotalInfo.total)} ${subTotalInfo.unit}` : '';
+
           doc.autoTable({
             startY: currentY,
             head: [[sub.title, 'Length', 'Breadth/Width', 'Depth/Height', 'Number']],
             body: tableData,
+            foot: [['Total', '', '', '', totalStr]],
             theme: 'grid',
             headStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+            footStyles: { fillColor: [220, 220, 220], textColor: [0, 0, 0], fontStyle: 'bold' },
             margin: { left: 14 }
           });
           

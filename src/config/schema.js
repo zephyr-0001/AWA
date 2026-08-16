@@ -569,7 +569,7 @@ export const FORM_SCHEMA = [
   },
   {
     id: 'plumbing',
-    title: '17. Plumbing and sanitary',
+    title: '17. Plumbing and Sanitary',
     type: 'multiple',
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
@@ -581,7 +581,7 @@ export const FORM_SCHEMA = [
   },
   {
     id: 'fittings',
-    title: '18. bathroom/kitchen fittings',
+    title: '18. Bathroom/Kitchen Fittings',
     type: 'multiple',
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
