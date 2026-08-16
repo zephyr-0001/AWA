@@ -3,8 +3,8 @@ import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { calculateCFt, calculateSqFt, calculateStairsType1, calculateStairsType2, calculateTMT } from '../utils/calculations';
 import '../styles/index.css';
 
-const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialData }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialData, isActive, onFocus, onAddSubsection }) => {
+  const [isOpen, setIsOpen] = useState(isActive === undefined ? true : isActive);
   const [data, setData] = useState(initialData || {});
 
   const initialDataStr = JSON.stringify(initialData || {});
@@ -28,8 +28,11 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
         return calculateStairsType2(row.length, row.breadth, row.depth);
       case 'tmt':
         return calculateTMT(row.length, row.breadth);
-      case 'direct':
-        return parseFloat(row.value) || 0;
+      case 'direct': {
+        const val = parseFloat(row.value) || 0;
+        const num = row.number !== undefined ? (parseFloat(row.number) || 1) : 1;
+        return val * num;
+      }
       default:
         return 0;
     }
@@ -81,6 +84,12 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
   useEffect(() => {
     if (collapseToggle > 0) setIsOpen(false);
   }, [collapseToggle]);
+
+  useEffect(() => {
+    if (isActive !== undefined && isActive !== null) {
+      setIsOpen(isActive);
+    }
+  }, [isActive]);
 
   const computeSectionTotal = () => {
     let total = 0;
@@ -147,8 +156,15 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
   };
 
   return (
-    <div className="section-container">
-      <div className="section-header" onClick={() => setIsOpen(!isOpen)}>
+    <div className="section-container" onClick={onFocus}>
+      <div 
+        className="section-header" 
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+          if (!isOpen && onFocus) onFocus();
+        }}
+      >
         <h3>{section.title}</h3>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {!isOpen && (
@@ -165,6 +181,13 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
             section.subsections.map(renderBlock)
           ) : (
             renderBlock(section)
+          )}
+          {onAddSubsection && (
+            <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
+              <button className="icon-btn" onClick={(e) => { e.stopPropagation(); onAddSubsection(); }} style={{ fontSize: '0.85rem', color: 'var(--primary-color)', backgroundColor: 'var(--primary-light)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)' }}>
+                + Add Subsection
+              </button>
+            </div>
           )}
         </div>
       )}

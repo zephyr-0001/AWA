@@ -8,7 +8,7 @@ describe('App Integration', () => {
     expect(screen.getByText('AWA')).toBeInTheDocument();
     expect(screen.getByText('BOQ Form')).toBeInTheDocument();
     expect(screen.getByText('Basic Cost')).toBeInTheDocument();
-    expect(screen.getByText('Rates Config')).toBeInTheDocument();
+    expect(screen.getByText('Rates')).toBeInTheDocument();
     expect(screen.getByText('Summary')).toBeInTheDocument();
     expect(screen.getByText('Form Builder (Proto)')).toBeInTheDocument();
   });

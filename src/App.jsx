@@ -30,6 +30,10 @@ function App() {
     const saved = localStorage.getItem('awa_basicCosts');
     return saved ? JSON.parse(saved) : [{ description: '', brand: '', unit: '', rate: '' }];
   });
+  const [customSubsections, setCustomSubsections] = useState(() => {
+    const saved = localStorage.getItem('awa_customSubsections');
+    return saved ? JSON.parse(saved) : {};
+  });
 
   const [expandToggle, setExpandToggle] = useState(0);
   const [collapseToggle, setCollapseToggle] = useState(0);
@@ -64,6 +68,10 @@ function App() {
     localStorage.setItem('awa_basicCosts', JSON.stringify(basicCosts));
   }, [basicCosts]);
 
+  useEffect(() => {
+    localStorage.setItem('awa_customSubsections', JSON.stringify(customSubsections));
+  }, [customSubsections]);
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     if (!isDarkMode) {
@@ -82,14 +90,21 @@ function App() {
       // Cross-sync: Excavation Footings -> PCC Footings & Concrete Footings
       if (sectionData.id === 'excavation') {
         const exFootingsData = sectionData.items['ex_footings'] || [];
+        const exCompoundWallData = sectionData.items['ex_compound_wall'] || [];
+        const exSumpData = sectionData.items['ex_sump'] || [];
+        
         // deep copy to avoid reference sharing which could cause weird bugs
-        const clonedData = JSON.parse(JSON.stringify(exFootingsData));
+        const clonedFootings = JSON.parse(JSON.stringify(exFootingsData));
+        const clonedCompoundWall = JSON.parse(JSON.stringify(exCompoundWallData));
+        const clonedSump = JSON.parse(JSON.stringify(exSumpData));
         
         if (!nextRawItems['pcc']) nextRawItems['pcc'] = {};
-        nextRawItems['pcc']['pcc_footings'] = clonedData;
+        nextRawItems['pcc']['pcc_footings'] = clonedFootings;
+        nextRawItems['pcc']['pcc_compound_wall'] = clonedCompoundWall;
+        nextRawItems['pcc']['pcc_sump'] = clonedSump;
         
         if (!nextRawItems['concrete']) nextRawItems['concrete'] = {};
-        nextRawItems['concrete']['con_footings'] = clonedData;
+        nextRawItems['concrete']['con_footings'] = clonedFootings;
       }
       return nextRawItems;
     });
@@ -106,11 +121,13 @@ function App() {
       localStorage.removeItem('awa_projectName');
       localStorage.removeItem('awa_rawItems');
       localStorage.removeItem('awa_basicCosts');
+      localStorage.removeItem('awa_customSubsections');
       setFormData({});
       setRates({});
       setProjectName('');
       setRawItems({});
       setBasicCosts([{ description: '', brand: '', unit: '', rate: '' }]);
+      setCustomSubsections({});
       setFormKey(k => k + 1);
     }
   };
@@ -145,7 +162,7 @@ function App() {
       <nav className="app-nav">
         <button className={activeTab === 'form' ? 'active' : ''} onClick={() => setActiveTab('form')}>BOQ Form</button>
         <button className={activeTab === 'basic_cost' ? 'active' : ''} onClick={() => setActiveTab('basic_cost')}>Basic Cost</button>
-        <button className={activeTab === 'rates' ? 'active' : ''} onClick={() => setActiveTab('rates')}>Rates Config</button>
+        <button className={activeTab === 'rates' ? 'active' : ''} onClick={() => setActiveTab('rates')}>Rates</button>
         <button className={activeTab === 'summary' ? 'active' : ''} onClick={() => setActiveTab('summary')}>Summary</button>
         <button className={activeTab === 'builder' ? 'active' : ''} onClick={() => setActiveTab('builder')}>Form Builder (Proto)</button>
       </nav>
@@ -160,6 +177,8 @@ function App() {
             expandToggle={expandToggle}
             collapseToggle={collapseToggle}
             initialRawItems={rawItems}
+            customSubsections={customSubsections}
+            setCustomSubsections={setCustomSubsections}
           />
         </div>
         <div style={{ display: activeTab === 'rates' ? 'block' : 'none' }}>
