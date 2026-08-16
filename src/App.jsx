@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Maximize2, Minimize2, RotateCcw, Sun, Moon } from 'lucide-react';
+import { Maximize2, Minimize2, RotateCcw, Sun, Moon, Download, Upload } from 'lucide-react';
 import AreaForm from './pages/AreaForm';
 import BasicCostForm from './pages/BasicCostForm';
 import RatesConfig from './pages/RatesConfig';
@@ -132,6 +132,63 @@ function App() {
     }
   };
 
+  const handleExportProject = () => {
+    const projectData = {
+      projectName,
+      formData,
+      rawItems,
+      basicCosts,
+      rates,
+      customSubsections,
+      exportDate: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${projectName ? projectName.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'project'}_backup.awa`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportProject = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target.result);
+        
+        if (data.projectName !== undefined) setProjectName(data.projectName);
+        if (data.formData) setFormData(data.formData);
+        if (data.rawItems) setRawItems(data.rawItems);
+        if (data.basicCosts) setBasicCosts(data.basicCosts);
+        if (data.rates) setRates(data.rates);
+        if (data.customSubsections) setCustomSubsections(data.customSubsections);
+        
+        if (data.projectName !== undefined) localStorage.setItem('awa_projectName', data.projectName);
+        if (data.formData) localStorage.setItem('awa_formData', JSON.stringify(data.formData));
+        if (data.rawItems) localStorage.setItem('awa_rawItems', JSON.stringify(data.rawItems));
+        if (data.basicCosts) localStorage.setItem('awa_basicCosts', JSON.stringify(data.basicCosts));
+        if (data.rates) localStorage.setItem('awa_rates', JSON.stringify(data.rates));
+        if (data.customSubsections) localStorage.setItem('awa_customSubsections', JSON.stringify(data.customSubsections));
+        
+        setFormKey(k => k + 1);
+        
+        alert("Project loaded successfully!");
+      } catch (err) {
+        alert("Failed to load project file. It may be corrupted or invalid.");
+        console.error(err);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = null; 
+  };
+
   return (
     <div className={`app-container ${isDarkMode ? 'dark' : ''}`}>
       <header className="app-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
@@ -142,7 +199,18 @@ function App() {
           </button>
         </div>
         
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div className="header-actions">
+          <button className="btn-compact primary-outline" onClick={handleExportProject} title="Save Project as File">
+            <Download size={14} /> Save
+          </button>
+          
+          <label className="btn-compact primary-outline" title="Load Project File" style={{ cursor: 'pointer', margin: 0 }}>
+            <Upload size={14} /> Load
+            <input type="file" hidden accept=".awa,.json" onChange={handleImportProject} />
+          </label>
+          
+          <div className="divider"></div>
+          
           {activeTab === 'form' && (
             <>
               <button className="btn-compact" onClick={() => setExpandToggle(e => e + 1)} title="Expand All">
