@@ -108,7 +108,7 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
         {rows.map((row, index) => (
           <div key={index} className="form-row">
             {block.fields.map((field) => (
-              <div key={field.name} className="field-group">
+              <div key={field.name} className="field-group" style={field.name === 'description' ? { flex: 2, minWidth: '200px' } : {}}>
                 <label>{field.label}</label>
                 {field.type === 'text' ? (
                   <input
@@ -116,7 +116,6 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
                     value={row[field.name] || ''}
                     onChange={(e) => handleRowChange(block.id, index, field.name, e.target.value)}
                     placeholder={field.label}
-                    style={field.name === 'description' ? { minWidth: '200px' } : {}}
                   />
                 ) : (
                   <input
