@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Maximize2, Minimize2, RotateCcw } from 'lucide-react';
+import { Maximize2, Minimize2, RotateCcw, Sun, Moon } from 'lucide-react';
 import AreaForm from './pages/AreaForm';
+import BasicCostForm from './pages/BasicCostForm';
 import RatesConfig from './pages/RatesConfig';
 import Summary from './pages/Summary';
 import FormBuilderPrototype from './pages/FormBuilderPrototype';
@@ -24,6 +25,10 @@ function App() {
   const [rawItems, setRawItems] = useState(() => {
     const saved = localStorage.getItem('awa_rawItems');
     return saved ? JSON.parse(saved) : {};
+  });
+  const [basicCosts, setBasicCosts] = useState(() => {
+    const saved = localStorage.getItem('awa_basicCosts');
+    return saved ? JSON.parse(saved) : [{ description: '', brand: '', unit: '', rate: '' }];
   });
 
   const [expandToggle, setExpandToggle] = useState(0);
@@ -55,6 +60,10 @@ function App() {
     localStorage.setItem('awa_rawItems', JSON.stringify(rawItems));
   }, [rawItems]);
 
+  useEffect(() => {
+    localStorage.setItem('awa_basicCosts', JSON.stringify(basicCosts));
+  }, [basicCosts]);
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     if (!isDarkMode) {
@@ -66,7 +75,24 @@ function App() {
 
   const handleTotalsChange = (sectionData) => {
     setFormData(prev => ({ ...prev, [sectionData.id]: sectionData }));
-    setRawItems(prev => ({ ...prev, [sectionData.id]: sectionData.items }));
+    
+    setRawItems(prev => {
+      const nextRawItems = { ...prev, [sectionData.id]: sectionData.items };
+      
+      // Cross-sync: Excavation Footings -> PCC Footings & Concrete Footings
+      if (sectionData.id === 'excavation') {
+        const exFootingsData = sectionData.items['ex_footings'] || [];
+        // deep copy to avoid reference sharing which could cause weird bugs
+        const clonedData = JSON.parse(JSON.stringify(exFootingsData));
+        
+        if (!nextRawItems['pcc']) nextRawItems['pcc'] = {};
+        nextRawItems['pcc']['pcc_footings'] = clonedData;
+        
+        if (!nextRawItems['concrete']) nextRawItems['concrete'] = {};
+        nextRawItems['concrete']['con_footings'] = clonedData;
+      }
+      return nextRawItems;
+    });
   };
 
   const handleRatesChange = (newRates) => {
@@ -74,15 +100,17 @@ function App() {
   };
 
   const handleClearAll = () => {
-    if (window.confirm("Are you sure you want to clear all data and start a new project?")) {
+    if (window.confirm("WARNING: Are you sure you want to clear all data and start a new project?\n\nPlease make sure you have exported and saved your current work first!")) {
       localStorage.removeItem('awa_formData');
       localStorage.removeItem('awa_rates');
       localStorage.removeItem('awa_projectName');
       localStorage.removeItem('awa_rawItems');
+      localStorage.removeItem('awa_basicCosts');
       setFormData({});
       setRates({});
       setProjectName('');
       setRawItems({});
+      setBasicCosts([{ description: '', brand: '', unit: '', rate: '' }]);
       setFormKey(k => k + 1);
     }
   };
@@ -92,28 +120,31 @@ function App() {
       <header className="app-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <h1>AWA</h1>
-          <button className="theme-toggle" onClick={toggleDarkMode}>
-            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          <button className="theme-toggle" onClick={toggleDarkMode} title="Toggle Theme" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', width: '36px', height: '36px' }}>
+            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
           </button>
         </div>
         
-        {activeTab === 'form' && (
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <button className="btn-compact" onClick={() => setExpandToggle(e => e + 1)} title="Expand All">
-              <Maximize2 size={14} /> Expand
-            </button>
-            <button className="btn-compact" onClick={() => setCollapseToggle(c => c + 1)} title="Collapse All">
-              <Minimize2 size={14} /> Collapse
-            </button>
-            <button className="btn-compact danger" onClick={handleClearAll} title="Start New Project">
-              <RotateCcw size={14} /> Reset
-            </button>
-          </div>
-        )}
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          {activeTab === 'form' && (
+            <>
+              <button className="btn-compact" onClick={() => setExpandToggle(e => e + 1)} title="Expand All">
+                <Maximize2 size={14} /> Expand
+              </button>
+              <button className="btn-compact" onClick={() => setCollapseToggle(c => c + 1)} title="Collapse All">
+                <Minimize2 size={14} /> Collapse
+              </button>
+            </>
+          )}
+          <button className="btn-compact danger" onClick={handleClearAll} title="Start New Project">
+            <RotateCcw size={14} /> Reset
+          </button>
+        </div>
       </header>
       
       <nav className="app-nav">
-        <button className={activeTab === 'form' ? 'active' : ''} onClick={() => setActiveTab('form')}>Area Form</button>
+        <button className={activeTab === 'form' ? 'active' : ''} onClick={() => setActiveTab('form')}>BOQ Form</button>
+        <button className={activeTab === 'basic_cost' ? 'active' : ''} onClick={() => setActiveTab('basic_cost')}>Basic Cost</button>
         <button className={activeTab === 'rates' ? 'active' : ''} onClick={() => setActiveTab('rates')}>Rates Config</button>
         <button className={activeTab === 'summary' ? 'active' : ''} onClick={() => setActiveTab('summary')}>Summary</button>
         <button className={activeTab === 'builder' ? 'active' : ''} onClick={() => setActiveTab('builder')}>Form Builder (Proto)</button>
@@ -138,8 +169,11 @@ function App() {
             initialRates={rates} 
           />
         </div>
+        <div style={{ display: activeTab === 'basic_cost' ? 'block' : 'none' }}>
+          <BasicCostForm basicCosts={basicCosts} onChange={setBasicCosts} />
+        </div>
         <div style={{ display: activeTab === 'summary' ? 'block' : 'none' }}>
-          <Summary formData={formData} rates={rates} rawItems={rawItems} projectName={projectName} />
+          <Summary formData={formData} rates={rates} rawItems={rawItems} basicCosts={basicCosts} projectName={projectName} />
         </div>
         <div style={{ display: activeTab === 'builder' ? 'block' : 'none' }}>
           <FormBuilderPrototype />

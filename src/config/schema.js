@@ -2,10 +2,14 @@ export const FORM_SCHEMA = [
   {
     id: 'centre_line',
     title: '1. Centre Line',
-    type: 'single',
-    fields: [{ name: 'value', label: 'Value', type: 'number' }],
+    type: 'multiple',
+    isReference: true,
+    fields: [
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'value', label: 'Running Feet', type: 'number' }
+    ],
     calcType: 'direct',
-    unit: 'SqFt'
+    unit: 'Rft'
   },
   {
     id: 'excavation',
@@ -28,10 +32,11 @@ export const FORM_SCHEMA = [
       {
         id: 'ex_compound_wall',
         title: 'Compound Wall',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Centre Line (Length)', type: 'number' },
-          { name: 'breadth', label: 'Width', type: 'number' }, // using breadth internally
+          { name: 'breadth', label: 'Width', type: 'number' },
           { name: 'depth', label: 'Depth', type: 'number' }
         ],
         calcType: 'cft',
@@ -40,8 +45,9 @@ export const FORM_SCHEMA = [
       {
         id: 'ex_sump',
         title: 'Sump',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
           { name: 'depth', label: 'Depth', type: 'number' }
@@ -106,8 +112,9 @@ export const FORM_SCHEMA = [
       {
         id: 'con_plinth',
         title: 'Plinth Beam',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Central Line', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
           { name: 'depth', label: 'Depth', type: 'number' }
@@ -118,11 +125,12 @@ export const FORM_SCHEMA = [
       {
         id: 'con_lintel',
         title: 'Lintel Concrete',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Central Line', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
-          { name: 'depth', label: 'Height', type: 'number' } // using depth internally as height for formula compatibility
+          { name: 'depth', label: 'Height', type: 'number' } 
         ],
         calcType: 'cft',
         unit: 'CFt'
@@ -130,8 +138,9 @@ export const FORM_SCHEMA = [
       {
         id: 'con_beams',
         title: 'Beams Concrete',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Central Line', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
           { name: 'depth', label: 'Height', type: 'number' }
@@ -142,8 +151,9 @@ export const FORM_SCHEMA = [
       {
         id: 'con_roof',
         title: 'Roof Slab',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
           { name: 'depth', label: 'Thickness', type: 'number' }
@@ -153,9 +163,10 @@ export const FORM_SCHEMA = [
       },
       {
         id: 'con_stairs_1',
-        title: 'Stairs (Type 1)',
-        type: 'single',
+        title: 'Stairs (Treads)',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
           { name: 'depth', label: 'Depth', type: 'number' },
@@ -166,9 +177,10 @@ export const FORM_SCHEMA = [
       },
       {
         id: 'con_stairs_2',
-        title: 'Stairs (Type 2)',
-        type: 'single',
+        title: 'Stairs (Waist Slab)',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
           { name: 'depth', label: 'Depth', type: 'number' }
@@ -177,10 +189,24 @@ export const FORM_SCHEMA = [
         unit: 'CFt'
       },
       {
+        id: 'con_stairs_3',
+        title: 'Stairs (Chain Link)',
+        type: 'multiple',
+        fields: [
+          { name: 'description', label: 'Description', type: 'text' },
+          { name: 'length', label: 'Length', type: 'number' },
+          { name: 'breadth', label: 'Width', type: 'number' },
+          { name: 'number', label: 'Number', type: 'number', default: 1 }
+        ],
+        calcType: 'sqft',
+        unit: 'SqFt'
+      },
+      {
         id: 'con_chajja',
         title: 'Chajja',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
           { name: 'number', label: 'Number', type: 'number', default: 1 }
@@ -197,8 +223,9 @@ export const FORM_SCHEMA = [
       {
         id: 'mas_solid',
         title: 'Solid Blocks',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Central Line', type: 'number' },
           { name: 'breadth', label: 'Height', type: 'number' }
         ],
@@ -208,8 +235,9 @@ export const FORM_SCHEMA = [
       {
         id: 'mas_bricks',
         title: 'Bricks',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Central Line', type: 'number' },
           { name: 'breadth', label: 'Width', type: 'number' },
           { name: 'depth', label: 'Height', type: 'number' }
@@ -226,8 +254,9 @@ export const FORM_SCHEMA = [
       {
         id: 'plas_inside',
         title: 'Inside',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Centre Line', type: 'number' },
           { name: 'breadth', label: 'Height', type: 'number' }
         ],
@@ -237,8 +266,9 @@ export const FORM_SCHEMA = [
       {
         id: 'plas_outside',
         title: 'Outside',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Centre Line', type: 'number' },
           { name: 'breadth', label: 'Height', type: 'number' }
         ],
@@ -248,8 +278,9 @@ export const FORM_SCHEMA = [
       {
         id: 'plas_ceiling',
         title: 'Ceiling',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Centre Line', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' },
           { name: 'number', label: 'Number', type: 'number', default: 1 }
@@ -278,7 +309,7 @@ export const FORM_SCHEMA = [
     fields: [
       { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
-      { name: 'breadth', label: 'Height', type: 'number' } // using breadth as generic multiplier field
+      { name: 'breadth', label: 'Height', type: 'number' }
     ],
     calcType: 'sqft',
     unit: 'SqFt'
@@ -316,10 +347,11 @@ export const FORM_SCHEMA = [
       {
         id: 'ms_tmt',
         title: 'TMT Steels',
-        type: 'single',
+        type: 'multiple',
         fields: [
-          { name: 'length', label: 'Area', type: 'number' }, // using length as param 1
-          { name: 'breadth', label: 'Kilograms', type: 'number' } // using breadth as param 2
+          { name: 'description', label: 'Description', type: 'text' },
+          { name: 'length', label: 'Area', type: 'number' }, 
+          { name: 'breadth', label: 'Kilograms', type: 'number' } 
         ],
         calcType: 'tmt',
         unit: 'Kgs'
@@ -372,8 +404,9 @@ export const FORM_SCHEMA = [
       {
         id: 'wp_terrace',
         title: 'Terrace',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' }
         ],
@@ -383,8 +416,9 @@ export const FORM_SCHEMA = [
       {
         id: 'wp_bathroom',
         title: 'Bathroom',
-        type: 'single',
+        type: 'multiple',
         fields: [
+          { name: 'description', label: 'Description', type: 'text' },
           { name: 'length', label: 'Length', type: 'number' },
           { name: 'breadth', label: 'Breadth', type: 'number' }
         ],
@@ -454,8 +488,9 @@ export const FORM_SCHEMA = [
   {
     id: 'compound_wall',
     title: '14. Compound Wall',
-    type: 'single',
+    type: 'multiple',
     fields: [
+      { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
       { name: 'breadth', label: 'Height', type: 'number' }
     ],
@@ -465,48 +500,64 @@ export const FORM_SCHEMA = [
   {
     id: 'sump_liters',
     title: '15. Sump',
-    type: 'single',
-    fields: [{ name: 'value', label: 'Value (Liters)', type: 'number' }],
+    type: 'multiple',
+    fields: [
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'value', label: 'Value (Liters)', type: 'number' }
+    ],
     calcType: 'direct',
     unit: 'Liters'
   },
   {
     id: 'overhead_tank',
     title: '16. Overhead Tank',
-    type: 'single',
-    fields: [{ name: 'value', label: 'Value (Liters)', type: 'number' }],
+    type: 'multiple',
+    fields: [
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'value', label: 'Value (Liters)', type: 'number' }
+    ],
     calcType: 'direct',
     unit: 'Liters'
   },
   {
     id: 'plumbing',
-    title: '17. Plumbing Works',
-    type: 'single',
-    fields: [{ name: 'value', label: 'Value (Numbers)', type: 'number' }],
+    title: '17. Plumbing and sanitary',
+    type: 'multiple',
+    fields: [
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'value', label: 'Value (Numbers)', type: 'number' }
+    ],
     calcType: 'direct',
     unit: 'Numbers'
   },
   {
     id: 'fittings',
-    title: '18. Fittings',
-    type: 'single',
-    fields: [{ name: 'value', label: 'Value (Numbers)', type: 'number' }],
+    title: '18. bathroom/kitchen fittings',
+    type: 'multiple',
+    fields: [
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'value', label: 'Value (Numbers)', type: 'number' }
+    ],
     calcType: 'direct',
     unit: 'Numbers'
   },
   {
     id: 'electrical',
     title: '19. Electrical Works',
-    type: 'single',
-    fields: [{ name: 'value', label: 'Area', type: 'number' }],
+    type: 'multiple',
+    fields: [
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'value', label: 'Area', type: 'number' }
+    ],
     calcType: 'direct',
     unit: 'SqFt'
   },
   {
     id: 'drainage',
     title: '20. Drainage Slab',
-    type: 'single',
+    type: 'multiple',
     fields: [
+      { name: 'description', label: 'Description', type: 'text' },
       { name: 'length', label: 'Length', type: 'number' },
       { name: 'breadth', label: 'Width', type: 'number' }
     ],

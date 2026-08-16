@@ -3,9 +3,18 @@ import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { calculateCFt, calculateSqFt, calculateStairsType1, calculateStairsType2, calculateTMT } from '../utils/calculations';
 import '../styles/index.css';
 
-const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialData = {} }) => {
+const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialData }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(initialData || {});
+
+  const initialDataStr = JSON.stringify(initialData || {});
+
+  useEffect(() => {
+    // Only update internal state if the incoming data actually changed (e.g. from cross-sync)
+    if (initialDataStr !== JSON.stringify(data)) {
+      setData(JSON.parse(initialDataStr));
+    }
+  }, [initialDataStr]);
 
   const getRowTotal = (row, calcType) => {
     switch (calcType) {
@@ -107,6 +116,7 @@ const FormSection = ({ section, onChange, expandToggle, collapseToggle, initialD
                     value={row[field.name] || ''}
                     onChange={(e) => handleRowChange(block.id, index, field.name, e.target.value)}
                     placeholder={field.label}
+                    style={field.name === 'description' ? { minWidth: '200px' } : {}}
                   />
                 ) : (
                   <input

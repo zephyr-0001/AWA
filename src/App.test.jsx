@@ -6,7 +6,8 @@ describe('App Integration', () => {
   it('renders all main tabs', () => {
     render(<App />);
     expect(screen.getByText('AWA')).toBeInTheDocument();
-    expect(screen.getByText('Area Form')).toBeInTheDocument();
+    expect(screen.getByText('BOQ Form')).toBeInTheDocument();
+    expect(screen.getByText('Basic Cost')).toBeInTheDocument();
     expect(screen.getByText('Rates Config')).toBeInTheDocument();
     expect(screen.getByText('Summary')).toBeInTheDocument();
     expect(screen.getByText('Form Builder (Proto)')).toBeInTheDocument();
@@ -14,7 +15,7 @@ describe('App Integration', () => {
 
   it('toggles dark mode', () => {
     render(<App />);
-    const toggleBtn = screen.getByRole('button', { name: /Dark Mode|Light Mode/i });
+    const toggleBtn = screen.getByTitle('Toggle Theme');
     expect(document.body.classList.contains('dark')).toBe(false); // assuming it starts in light mode in test environment
     
     fireEvent.click(toggleBtn);
